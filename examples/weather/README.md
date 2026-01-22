@@ -1,6 +1,6 @@
 # Weather App Example (Crux)
 
-This project is a cross-platform weather application example built using [Crux](https://github.com/redbadger/crux/), demonstrating a clean separation of business logic (in Rust) and platform-specific UI (here, iOS/SwiftUI). The app fetches weather data from the [OpenWeatherMap API](https://openweathermap.org/api) and displays it in a modern, user-friendly interface.
+This project is a cross-platform weather application example built using [Crux](https://github.com/redbadger/crux/), demonstrating a clean separation of business logic (in Rust) and platform-specific UI (iOS/SwiftUI and Android/Jetpack Compose). The app fetches weather data from the [OpenWeatherMap API](https://openweathermap.org/api) and displays it in a modern, user-friendly interface.
 
 ## Features
 - Fetches current weather for a given location using OpenWeatherMap
@@ -18,6 +18,7 @@ This project is a cross-platform weather application example built using [Crux](
    - `config.rs` — Shared configuration (API keys, endpoints)
    - `app.rs` — Core app logic and view state management
 - `iOS/` — iOS app using SwiftUI, integrates with Rust via FFI
+- `Android/` — Android app using Kotlin + Jetpack Compose, integrates with Rust via the shared library
 
 ## Architecture Summary
 - **Domain-Oriented**: Code organized by business domains (weather, location, favorites)
@@ -34,6 +35,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for a detailed breakdown.
 - Rust (1.66+)
 - Xcode (14+)
 - Swift 5
+- Android Studio (for Android app)
 - [wasm-pack](https://rustwasm.github.io/wasm-pack/), if targeting web
 - OpenWeatherMap API key (get one at [OpenWeatherMap](https://openweathermap.org/api))
 
@@ -74,6 +76,21 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for a detailed breakdown.
     # set the location to Big Ben (Elizabeth Tower), London, UK
     xcrun simctl location booted set 51.500510810750356,-0.12462580696146475
     ```
+
+### Android app
+1. Add your API key to `Android/local.properties`:
+   ```properties
+   OPENWEATHER_API_KEY=your_api_key_here
+   ```
+
+2. Ensure Rust targets are installed:
+   ```sh
+   rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
+   ```
+
+3. Run `just build` to generate kotlin bindings to core.
+
+4. Open Android Studio, sync and run the app.
 
 
 ### Running Tests
